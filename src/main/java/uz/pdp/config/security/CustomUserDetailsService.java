@@ -22,7 +22,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         final UserAuth userAuth = userAuthRepository.getByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("Username - " + username + " , not found.")
         );
-        System.out.println(userAuth);
         return User.builder()
                 .username(userAuth.getUsername())
                 .password(userAuth.getPassword())

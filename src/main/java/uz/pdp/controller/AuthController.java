@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class AuthController {
 
     @GetMapping("/login")
-    public ModelAndView login(@RequestParam(required = false, name = "errorMessage") String error){
+    public ModelAndView login(@RequestParam(required = false, name = "error") String error){
         ModelAndView model = new ModelAndView();
         model.addObject("errorMessage", error);
         model.setViewName("login");
