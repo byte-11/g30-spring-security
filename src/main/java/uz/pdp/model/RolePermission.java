@@ -8,11 +8,11 @@ import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-public class UserAuth {
-    private String username;
-    private String password;
-    private String role;
+public class RolePermission {
+    private Long id;
+    private String name;
+    private String code;
 }
