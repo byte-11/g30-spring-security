@@ -18,42 +18,9 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserEntity implements UserDetails {
+public class UserEntity {
     private Long id;
     private String username;
     private String password;
     private Set<UserRole> roles;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        final Set<GrantedAuthority> authorities = new HashSet<>();
-        roles.forEach(role -> {
-                    authorities.add(new SimpleGrantedAuthority(role.getCode()));
-                    role.getPermissions().forEach(permission ->
-                            authorities.add(new SimpleGrantedAuthority(permission.getCode()))
-                    );
-                }
-        );
-        return authorities;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

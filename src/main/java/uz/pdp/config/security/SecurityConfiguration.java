@@ -5,12 +5,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 @Configuration
 @EnableWebSecurity
@@ -29,13 +32,12 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(registry ->
-                        registry.requestMatchers("/auth/**").permitAll()
-//                                .requestMatchers("/privilege/admins").hasAnyAuthority("ADMIN_DELETE")
+        http.authorizeHttpRequests(registry ->
+                                registry.requestMatchers("/auth/**", "/home").permitAll()
+//                                .requestMatchers("/privilege/admins").hasAnyAuthority("ADMIN_DELETE", "ADMIN_CREATE")
 //                                .requestMatchers("/privilege/users").hasAnyRole("ADMIN","USER")
 //                                .requestMatchers("/privilege/managers").hasAuthority("MANAGER_CREATE")
-                                .anyRequest().authenticated()
+                                        .anyRequest().authenticated()
                 )
                 .userDetailsService(userDetailsService)
                 .formLogin(configurer -> configurer
@@ -63,10 +65,19 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
 
+    }
+
+    @Bean
+    @SessionScope
+    public UserContext userContext() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            return (UserContext) authentication.getPrincipal();
+        }
+        return null;
     }
 }

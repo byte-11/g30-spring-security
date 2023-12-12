@@ -1,12 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+
+>
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
 </head>
 <body>
-
-<h2>Home</h2>
-
+<nav>
+    <div class="main">
+        <ul>
+            <li th:text="${#authentication.getName()}">NavBar</li>
+            <li>Home</li>
+            <li sec:authorize="hasRole('ADMIN')">Admin</li>
+            <li sec:authorize="hasRole('MANAGER')">Manager</li>
+            <li>Contact</li>
+        </ul>
+    </div>
+    <div class="register">
+        <ul>
+            <li sec:authorize="isAnonymous()"><a href="/auth/login">Sign In</a></li>
+            <li sec:authorize="isAnonymous()"><a href="/auth/signup">Sign Up</a></li>
+            <li sec:authorize="isAuthenticated()" ><a href="/auth/logout">Log out</a></li>
+        </ul>
+    </div>
+</nav>
 </body>
 </html>

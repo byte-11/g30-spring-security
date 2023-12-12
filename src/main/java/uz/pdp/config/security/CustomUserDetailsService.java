@@ -38,6 +38,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         userEntity.setRoles(roles);
 
-        return userEntity;
+        return new UserContext(userEntity);
     }
 }

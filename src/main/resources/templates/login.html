@@ -12,6 +12,8 @@
 
         <h3>Log In</h3>
         <form action="/auth/login" method="post">
+            <input type="hidden" name="_csrf" th:value="${_csrf.getToken()}">
+            <br>
             <label>
                 Username : <input type="text" name="username">
             </label>

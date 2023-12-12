@@ -5,10 +5,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
+
+import java.util.Set;
 
 @Configuration
 @EnableWebMvc
@@ -36,6 +39,7 @@ public class ServletConfiguration {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
         templateEngine.setEnableSpringELCompiler(true);
+        templateEngine.setAdditionalDialects(Set.of(springSecurityDialect()));
         return templateEngine;
     }
 
@@ -45,5 +49,10 @@ public class ServletConfiguration {
         viewResolver.setTemplateEngine(templateEngine());
         viewResolver.setOrder(1);
         return viewResolver;
+    }
+
+    @Bean
+    public SpringSecurityDialect springSecurityDialect(){
+        return new SpringSecurityDialect();
     }
 }
