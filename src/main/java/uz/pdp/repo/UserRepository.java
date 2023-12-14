@@ -37,7 +37,7 @@ public class UserRepository {
                 "INSERT INTO users(username, password) VALUES(:username, :password)",
                 new MapSqlParameterSource()
                         .addValue("username", userEntity.getUsername())
-                        .addValue("password", userEntity.getPassword())
+                        .addValue("auth.form.password", userEntity.getPassword())
                 , keyHolder, new String[]{"id"}
         );
         parameterJdbcTemplate.update(
