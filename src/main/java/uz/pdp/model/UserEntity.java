@@ -17,10 +17,19 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class UserEntity {
     private Long id;
     private String username;
     private String password;
     private Set<UserRole> roles;
+
+    @Override
+    public String toString() {
+        return "UserEntity [" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                ']';
+    }
 }

@@ -12,7 +12,7 @@ public class DispatcherInitializer extends AbstractAnnotationConfigDispatcherSer
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{ServletConfiguration.class};
+        return new Class[]{MvcConfiguration.class};
     }
 
     @Override
@@ -25,6 +25,6 @@ public class DispatcherInitializer extends AbstractAnnotationConfigDispatcherSer
         MultipartConfigElement configElement = new MultipartConfigElement("C:\\Users\\b.kambaraliev\\IdeaProjects\\g30\\spring\\g30-spring-security\\src\\main\\resources\\files\\temp\\");
         registration.setMultipartConfig(configElement);
     }
-
-
 }
+//files?id=15
+//file/15

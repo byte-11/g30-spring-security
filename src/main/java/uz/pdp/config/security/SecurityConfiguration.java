@@ -44,7 +44,7 @@ public class SecurityConfiguration {
                 .formLogin(configurer -> configurer
                         .loginPage("/auth/login")
                         .usernameParameter("username")
-                        .passwordParameter("auth.form.password")
+                        .passwordParameter("password")
                         .defaultSuccessUrl("/home", false)
                         .failureHandler(new CustomAuthenticationFailureHandler())
                 )

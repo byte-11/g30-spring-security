@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -24,10 +26,10 @@ import java.util.Set;
 @Configuration
 @EnableWebMvc
 @ComponentScan("uz.pdp")
-public class ServletConfiguration implements WebMvcConfigurer {
+public class MvcConfiguration implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
 
-    public ServletConfiguration(ApplicationContext applicationContext) {
+    public MvcConfiguration(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
@@ -39,6 +41,7 @@ public class ServletConfiguration implements WebMvcConfigurer {
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCacheable(true);
+        templateResolver.setCharacterEncoding("UTF-8");
         return templateResolver;
     }
 
@@ -57,6 +60,7 @@ public class ServletConfiguration implements WebMvcConfigurer {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
         viewResolver.setOrder(1);
+        viewResolver.setCharacterEncoding("UTF-8");
         return viewResolver;
     }
 
@@ -79,8 +83,6 @@ public class ServletConfiguration implements WebMvcConfigurer {
         return resolver;
     }
 
-
-
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor(){
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
@@ -91,5 +93,10 @@ public class ServletConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
+    }
+
+    @Bean
+    public MultipartResolver multipartResolver(){
+        return new StandardServletMultipartResolver();
     }
 }
